@@ -1,15 +1,54 @@
 from django.shortcuts import render, redirect
 from django import forms
 
-import json
-
 from newsapi import NewsApiClient
 
 from my_secrets import secrets
 
 NEWS_SOURCES = {
     'bbc-news': 'BBC News',
-    'the-economist': 'The Economist'
+    'the-economist': 'The Economist',
+    'business-insider': 'Business Insider',
+    'cnn': 'CNN',
+    'daily-mail': 'Daily Mail',
+    'cnbc': 'CNBC',
+    'reddit-r-all': '/r/all',
+    'reuters': 'Reuters',
+    'rt': 'RT',
+    'the-hill': 'The Hill',
+    'the-new-york-times': 'The New York Times',
+    'the-wall-street-journal': 'The Wall Street Journal',
+    'the-washington-post': 'The Washington Post',
+    'the-huffington-post': 'The Huffington Post',
+    'the-telegraph': 'The Telegraph',
+    'usa-today': 'USA Today',
+    'vice-news': 'Vice News',
+    'breitbart-news': 'Breitbart News',
+    'time': 'Time Magazine',
+    'the-verge': 'The Verge',
+    'the-times-of-india': 'The Times of India',
+    'politico': 'Politico',
+    'techcrunch': 'TechCrunch',
+    'spiegel-online': 'Spiegel Online',
+    'national-geographic': 'National Geographic',
+    'msnbc': 'MSNBC',
+    'national-review': 'National Review',
+    'hacker-news': 'Hacker News',
+    'le-monde': 'Le Monde',
+    'fortune': 'Fortune Magazine',
+    'cbs-news': 'CBS News',
+    'buzzfeed': 'Buzzfeed',
+    'bloomberg': 'Bloomberg',
+    'associated-press': 'Associated Press',
+    'abc-news': 'ABC News',
+    'abc-news-au': 'ABC News (AU)',
+    'al-jazeera-english': 'Al Jazeera English',
+    'ars-technica': 'Ars Technica',
+    'axios': 'Axios',
+    'the-washington-times': 'The Washington Times',
+    'new-york-magazine': 'New York Magazine',
+    'the-american-conservative': 'The American Conservative',
+    'newsweek': 'Newsweek',
 }
 
 CHOICES = sorted(NEWS_SOURCES.items())
@@ -19,6 +58,33 @@ class NewsSourceForm(forms.Form):
     sources = forms.MultipleChoiceField(required=True, choices=CHOICES)
     query = forms.CharField(required=True)
 
+
+class Article:
+    def __init__(self, title, description, url, source_name):
+        self.title = title
+        self.description = description
+        self.url = url
+        self.source_name = source_name
+
+
+def results(request):
+    json_response = request.session['json_response']
+    del request.session['json_response']
+
+    context = {
+        'total_results': json_response['totalResults'],
+        'articles': []
+    }
+
+    for result in json_response['articles']:
+        source_name = result['source']['name']
+        title = result['title']
+        description = result['description']
+        url = result['url']
+
+        context['articles'].append(Article(title, description, url, source_name))
+
+    return render(request, 'news/results.html', context)
 
 def home(request):
     if request.method == 'POST':
@@ -32,7 +98,8 @@ def home(request):
             json_response = client.get_top_headlines(q=query,
                                 sources=','.join(news_sources))
 
-            total_results = json_response['totalResults']
+            request.session['json_response'] = json_response
+            return redirect('news-results')
     else:
         form = NewsSourceForm()
     return render(request, 'news/home.html', {'form': form})
