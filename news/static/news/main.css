@@ -1,0 +1,15 @@
+a.nav-item:link {
+  color: white;
+}
+
+a.nav-item:hover {
+  color: #cfcfcf;
+}
+
+a.nav-item:visited {
+  color: white;
+}
+
+a.nav-item:active {
+  color: #cfcfcf;
+}

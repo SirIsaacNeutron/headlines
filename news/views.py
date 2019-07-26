@@ -60,11 +60,12 @@ class NewsSourceForm(forms.Form):
 
 
 class Article:
-    def __init__(self, title, description, url, source_name):
+    def __init__(self, title, description, url, source_name, published_at):
         self.title = title
         self.description = description
         self.url = url
         self.source_name = source_name
+        self.published_at = published_at
 
 
 def results(request):
@@ -81,8 +82,10 @@ def results(request):
         title = result['title']
         description = result['description']
         url = result['url']
+        published_at = result['publishedAt'].split('T')[0]
 
-        context['articles'].append(Article(title, description, url, source_name))
+        context['articles'].append(Article(title, description, url,
+                                    source_name, published_at))
 
     return render(request, 'news/results.html', context)
 
@@ -95,8 +98,9 @@ def home(request):
             client = NewsApiClient(api_key=secrets.NEWS_API_KEY)
 
             query = form.cleaned_data['query']
-            json_response = client.get_top_headlines(q=query,
-                                sources=','.join(news_sources))
+            json_response = client.get_everything(q=query,
+                                sources=','.join(news_sources),
+                                page_size=100)
 
             request.session['json_response'] = json_response
             return redirect('news-results')
