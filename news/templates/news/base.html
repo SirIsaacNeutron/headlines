@@ -18,13 +18,13 @@
         <a class="text-white" href="{% url 'news-home' %}">Headlines</a>
       </h1>
       <nav class="navbar navbar-dark bg-dark">
-        <a class="nav-item nav-link" href="#">General</a>
-        <a class="nav-item nav-link" href="#">Business</a>
-        <a class="nav-item nav-link" href="#">Health</a>
-        <a class="nav-item nav-link" href="#">Science</a>
-        <a class="nav-item nav-link" href="#">Sports</a>
-        <a class="nav-item nav-link" href="#">Technology</a>
-        <a class="nav-item nav-link" href="#">Entertainment</a>
+        <a class="nav-item nav-link" href="{% url 'news-category' 'general' %}">General</a>
+        <a class="nav-item nav-link" href="{% url 'news-category' 'business' %}">Business</a>
+        <a class="nav-item nav-link" href="{% url 'news-category' 'health' %}">Health</a>
+        <a class="nav-item nav-link" href="{% url 'news-category' 'science' %}">Science</a>
+        <a class="nav-item nav-link" href="{% url 'news-category' 'sports' %}">Sports</a>
+        <a class="nav-item nav-link" href="{% url 'news-category' 'technology' %}">Technology</a>
+        <a class="nav-item nav-link" href="{% url 'news-category' 'entertainment' %}">Entertainment</a>
       </nav>
     </header>
 

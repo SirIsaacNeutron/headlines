@@ -68,15 +68,7 @@ class Article:
         self.published_at = published_at
 
 
-def results(request):
-    json_response = request.session['json_response']
-    del request.session['json_response']
-
-    context = {
-        'total_results': json_response['totalResults'],
-        'articles': []
-    }
-
+def get_context_dict(context, json_response):
     for result in json_response['articles']:
         source_name = result['source']['name']
         title = result['title']
@@ -86,6 +78,36 @@ def results(request):
 
         context['articles'].append(Article(title, description, url,
                                     source_name, published_at))
+
+    return context
+
+
+def category(request, category: str):
+    client = NewsApiClient(api_key=secrets.NEWS_API_KEY)
+
+    json_response = client.get_top_headlines(category=category,
+                                            country='us')
+
+    context = {
+        'total_results': json_response['totalResults'],
+        'category': category.title(),
+        'articles': []
+    }
+
+    context = get_context_dict(context, json_response)
+
+    return render(request, 'news/results.html', context)
+
+def results(request):
+    json_response = request.session['json_response']
+    del request.session['json_response']
+
+    context = {
+        'total_results': json_response['totalResults'],
+        'articles': []
+    }
+
+    context = get_context_dict(context, json_response)
 
     return render(request, 'news/results.html', context)
 

@@ -1,11 +1,19 @@
 {% extends "news/base.html" %}
 {% block content %}
 <div class="content-section">
-  <h1>{{ total_results }} Article(s) Found</h1>
+  {% if category %}
+    <h1>{{ total_results }} {{ category }} Article(s) Found</h1>
+  {% else %}
+    <h1>{{ total_results }} Article(s) Found</h1>
+  {% endif %}
   {% for article in articles %}
     <article class="media content-section">
       <div class="media-body">
-        <h2><a href="{{ article.url }}">{{ article.title }}</a> -- {{ article.source_name }}</h2>
+        {% if category %}
+          <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
+        {% else %}
+          <h2><a href="{{ article.url }}">{{ article.title }}</a> -- {{ article.source_name }}</h2>
+        {% endif %}
         <small class="text-muted">{{ article.published_at }}</small>
         <p>{{ article.description }}</p>
       </div>
