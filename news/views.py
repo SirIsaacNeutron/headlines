@@ -99,8 +99,11 @@ def category(request, category: str):
     return render(request, 'news/results.html', context)
 
 def results(request):
-    json_response = request.session['json_response']
-    del request.session['json_response']
+    try:
+        json_response = request.session['json_response']
+        del request.session['json_response']
+    except KeyError:
+        return redirect('news-home')
 
     context = {
         'total_results': json_response['totalResults'],

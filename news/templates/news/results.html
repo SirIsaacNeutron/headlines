@@ -7,7 +7,7 @@
     <h1>{{ total_results }} Article(s) Found</h1>
   {% endif %}
   {% for article in articles %}
-    <article class="media content-section">
+    <article class="media border p-3 mb-3">
       <div class="media-body">
         {% if category %}
           <h2><a href="{{ article.url }}">{{ article.title }}</a></h2>
