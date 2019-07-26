@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
-from my_secrets import secrets
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -22,21 +20,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secrets.SECRET_KEY
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# secrets.LOCALHOST_PHONE_HOST allows testing the site on mobile (and other)
+# LOCALHOST_PHONE_HOST allows testing the site on mobile (and other)
 # devices if they are on the same network as the computer running the
 # development server
-ALLOWED_HOSTS = [secrets.LOCALHOST_PHONE_HOST, 'localhost']
+ALLOWED_HOSTS = [os.environ.get('LOCALHOST_PHONE_HOST'), 'localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django_secrets',
     'crispy_forms',
     'news.apps.NewsConfig',
     'django.contrib.admin',

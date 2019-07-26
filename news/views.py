@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django import forms
 
-from newsapi import NewsApiClient
+import os
 
-from my_secrets import secrets
+from newsapi import NewsApiClient
 
 NEWS_SOURCES = {
     'bbc-news': 'BBC News',
@@ -83,7 +83,7 @@ def get_context_dict(context, json_response):
 
 
 def category(request, category: str):
-    client = NewsApiClient(api_key=secrets.NEWS_API_KEY)
+    client = NewsApiClient(api_key=os.environ.get('NEWS_API_KEY'))
 
     json_response = client.get_top_headlines(category=category,
                                             country='us')
@@ -120,7 +120,7 @@ def home(request):
 
         if form.is_valid():
             news_sources = form.cleaned_data['sources']
-            client = NewsApiClient(api_key=secrets.NEWS_API_KEY)
+            client = NewsApiClient(api_key=os.environ.get('NEWS_API_KEY'))
 
             query = form.cleaned_data['query']
             json_response = client.get_everything(q=query,
