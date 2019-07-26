@@ -7,5 +7,6 @@
 
 SECRET_KEYS = [
     # start with your Django secret key like this:
-    "SECRET_KEY",
+    'SECRET_KEY',
+    'NEWS_API_KEY',
 ]
