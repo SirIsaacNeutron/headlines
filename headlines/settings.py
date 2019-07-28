@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'crispy_forms',
     'django_heroku',
+    'newsapi',
     'news.apps.NewsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
