@@ -20,21 +20,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'no value')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# LOCALHOST_PHONE_HOST allows testing the site on mobile (and other)
-# devices if they are on the same network as the computer running the
-# development server
-ALLOWED_HOSTS = [os.environ.get('LOCALHOST_PHONE_HOST'), 'localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'crispy_forms',
+    'django_heroku',
     'news.apps.NewsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -125,3 +123,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+import django_heroku
+django_heroku.settings(locals())
