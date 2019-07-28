@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django import forms
+from django.http import Http404
 
 import os
 
@@ -85,8 +86,12 @@ def get_context_dict(context, json_response):
 def category(request, category: str):
     client = NewsApiClient(api_key=os.environ.get('NEWS_API_KEY'))
 
-    json_response = client.get_top_headlines(category=category,
-                                            country='us')
+    try:
+        json_response = client.get_top_headlines(category=category,
+                                                country='us')
+    # If category is invalid
+    except ValueError:
+        raise Http404('Invalid category')
 
     context = {
         'total_results': json_response['totalResults'],
