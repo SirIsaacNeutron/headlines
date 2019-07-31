@@ -125,9 +125,18 @@ STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+
+# "localhost:8000" will not be a valid host because of this
+# if-statement
+if DEBUG == '':
+    SECURE_SSL_REDIRECT = True
+    SECURE_SSL_HOST = 'popular-headlines.herokuapp.com/'
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+CONN_MAX_AGE = 500
+
 import django_heroku
 django_heroku.settings(locals())
-
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
