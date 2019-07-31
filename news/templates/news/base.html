@@ -16,9 +16,10 @@
   </head>
   <body>
     <header>
-      <h1 class="bg-dark text-white text-center mb-0">
+      <h1 class="bg-dark text-white text-center mb-0 pt-3">
         <a class="text-white" href="{% url 'news-home' %}">Headlines</a>
       </h1>
+      <h5 class="bg-dark text-white text-center mb-0"><em><small>Popular news articles on a variety of subjects</em></small></h5>
       <nav class="navbar navbar-dark bg-dark">
         <a class="nav-item nav-link" href="{% url 'news-category' 'general' %}">General</a>
         <a class="nav-item nav-link" href="{% url 'news-category' 'business' %}">Business</a>
