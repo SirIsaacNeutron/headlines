@@ -132,7 +132,7 @@ X_FRAME_OPTIONS = 'DENY'
 # if-statement
 if DEBUG == '':
     SECURE_SSL_REDIRECT = True
-    SECURE_SSL_HOST = 'popular-headlines.herokuapp.com/'
+    SECURE_SSL_HOST = 'popular-headlines.herokuapp.com'
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
